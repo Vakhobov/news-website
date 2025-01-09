@@ -1,0 +1,50 @@
+{% extends 'news/base.html' %}
+
+{% block title %}Qidruv Natijalari {% endblock %}
+{% block content %}
+<div class="container">
+  <h2 style="text-align: center;"><span>Qidruv Natijalari</span></h2>
+  <div class="row">
+    {% if barcha_yangiliklar %}
+      <div class="col-md-6">
+        {% for news in search_news_left %}
+              <ul class="business_catgnav wow fadeInDown">
+                  <li>
+                      <figure class="bsbig_fig">
+                          <a href="{{ news.get_absolute_url }}" class="featured_img">
+                              <img alt="" src="{{ news.image.url }}">
+                              <span class="overlay"></span>
+                          </a>
+                          <figcaption>
+                              <a href="{{ news.get_absolute_url }}">{{ news.title }}</a>
+                          </figcaption>
+                          <p>{{ news.body | truncatewords:10 }}</p>
+                      </figure>
+                  </li>
+              </ul>
+              {% endfor %}
+      </div>
+      <div class="col-md-6">
+        {% for news in search_news_right %}
+              <ul class="business_catgnav wow fadeInDown">
+                  <li>
+                      <figure class="bsbig_fig">
+                          <a href="{{ news.get_absolute_url }}" class="featured_img">
+                              <img alt="" src="{{ news.image.url }}">
+                              <span class="overlay"></span>
+                          </a>
+                          <figcaption>
+                              <a href="{{ news.get_absolute_url }}">{{ news.title }}</a>
+                          </figcaption>
+                          <p>{{ news.body | truncatewords:10 }}</p>
+                      </figure>
+                  </li>
+              </ul>
+              {% endfor %}
+    {% else %}
+        <p>No results found.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

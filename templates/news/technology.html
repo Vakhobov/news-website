@@ -1,0 +1,49 @@
+{% extends 'news/base.html' %}
+{% load static %}
+{% load hitcount_tags %}
+
+{% block title %} Texnologiya xabarlari {% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2 style="text-align: center;"><span>Texnologiya Xabarlar</span></h2>
+    <div class="row">
+        <div class="col-md-6">
+                {% for news in technology_news_left %}
+                <ul class="business_catgnav wow fadeInDown">
+                    <li>
+                        <figure class="bsbig_fig">
+                            <a href="{{ news.get_absolute_url }}" class="featured_img">
+                                <img alt="" src="{{ news.image.url }}">
+                                <span class="overlay"></span>
+                            </a>
+                            <figcaption>
+                                <a href="{{ news.get_absolute_url }}">{{ news.title }}</a>
+                            </figcaption>
+                            <p>{{ news.body | truncatewords:10 }} | Ko'rilganlar soni:<i class="fa fa-eye" aria-hidden="true"></i> {% get_hit_count for news %}</p>
+                        </figure>
+                    </li>
+                </ul>
+                {% endfor %}
+        </div>
+        <div class="col-md-6">
+                {% for news in technology_news_right %}
+                <ul class="business_catgnav wow fadeInDown">
+                    <li>
+                        <figure class="bsbig_fig">
+                            <a href="{{ news.get_absolute_url }}" class="featured_img">
+                                <img alt="" src="{{ news.image.url }}">
+                                <span class="overlay"></span>
+                            </a>
+                            <figcaption>
+                                <a href="{{ news.get_absolute_url }}">{{ news.title }}</a>
+                            </figcaption>
+                            <p>{{ news.body | truncatewords:10 }} | Ko'rilganlar soni:<i class="fa fa-eye" aria-hidden="true"></i> {% get_hit_count for news %}</p>
+                        </figure>
+                    </li>
+                </ul>
+                {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
