@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-
+from django.utils.text import slugify
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -21,7 +21,7 @@ class News(models.Model):
         Draft = "DF", "Draft"
         Published = "PB", "Published"
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
     body = models.TextField()
     image = models.ImageField(upload_to='news/images')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -41,6 +41,13 @@ class News(models.Model):
     
     def get_absolute_url(self):
         return reverse("news_detail",args=[self.slug] )
+    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+          self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
 
 
 #contacs 

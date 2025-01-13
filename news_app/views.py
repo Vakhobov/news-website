@@ -12,6 +12,8 @@ from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
 from django.db.models import Q
 from hitcount.utils import get_hitcount_model
+from django.utils.text import slugify
+
 
 def news_list(request):
     news_list = News.objects.filter(status=News.Status.Published)
@@ -176,7 +178,20 @@ class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
 class NewsCreateView(OnlyLoggedSuperUser, CreateView):
     model = News
     template_name = 'crud/news_create.html'
-    fields = ('title', 'slug', 'body', 'image', 'category', 'status')
+    fields = (
+        'title', 'title_uz', 'title_en', 'title_ru', 
+        'slug', 'body', 'body_uz', 'body_en', 'body_ru', 
+        'image', 'category', 'status'
+    )
+    def form_valid(self, form):
+        if not form.instance.slug:  
+            form.instance.slug = slugify(form.instance.title)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        from django.urls import reverse
+        return reverse('home_page') 
+
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
